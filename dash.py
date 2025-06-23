@@ -95,6 +95,7 @@ outliers.columns = ['Indicator', 'OutlierCount']
 app = Dash(__name__)
 app.layout = html.Div([
     html.H1("Экономический дашборд МВФ (WEO 2024)", style={"textAlign": "center"}),
+    html.H3("Links to Github – github.com/DyxLess777/dashboardLight", style={"textAlign": "center"}),
     dcc.Tabs([
         # Вкладки с показателями
         dcc.Tab(label=group_name, children=[
@@ -128,16 +129,27 @@ app.layout = html.Div([
                 html.Div(id='top-correlated')
             ]),
             html.Div([
-                html.H1('2. Интерактивная карта экономических показателей'),
-                dcc.Graph(
-                    figure=px.choropleth(
-                        df_wide,
-                        locations='ISO', locationmode='ISO-3',
-                        color='NGDPDPC', hover_name='Country',
-                        hover_data={key: True for key in numeric_cols},
-                        color_continuous_scale=['white', 'green'],
-                        animation_frame='Year', projection='natural earth', width=1200, height=700
-                    ).update_layout(geo=dict(showframe=False, showcoastlines=False), showlegend=False)
+                html.H1('2. Интерактивная карта экономических показателей', style={"margin-top": "20px"}),
+                html.Div(
+                    dcc.Graph(
+                        figure=px.choropleth(
+                            df_wide,
+                            locations='ISO',
+                            locationmode='ISO-3',
+                            color='NGDPDPC',
+                            hover_name='Country',
+                            hover_data={key: True for key in numeric_cols},
+                            color_continuous_scale=['white', 'green'],
+                            animation_frame='Year',
+                            projection='mercator',
+                            width=1200,
+                            height=700
+                        ).update_layout(
+                            geo=dict(showframe=False, showcoastlines=False),
+                            showlegend=False
+                        )
+                    ),
+                    style={'display': 'flex', 'justifyContent': 'center', 'width': '100%'}
                 )
             ]),
             html.Div([
