@@ -323,6 +323,8 @@ def plot_missing_treemap(_):
     )
     fig.update_layout(height=600)
     return fig
+    
+server = app.server
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run_server(debug=True)
