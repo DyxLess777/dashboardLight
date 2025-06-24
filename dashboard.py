@@ -84,18 +84,16 @@ def get_top10(ind):
 
 countries = sorted(df_melted['Country'].dropna().unique())
 
-# Выбросы: считаем Z-оценки и подсчитываем >3 (IQR/межквартильный размах)
 numeric_cols = [c for c in df_raw.columns if c not in ['Country','ISO','Year'] and pd.api.types.is_numeric_dtype(df_raw[c])]
 df_numeric = df_raw[numeric_cols]
 z_scores = ((df_numeric - df_numeric.mean()) / df_numeric.std()).abs()
 outliers = (z_scores > 3).sum().reset_index()
 outliers.columns = ['Indicator', 'OutlierCount']
 
-# Запускаем Dash приложение
 app = Dash(__name__)
 app.layout = html.Div([
     html.H1("Экономический дашборд МВФ (WEO 2024)", style={"textAlign": "center"}),
-    html.H3("Links to Github – github.com/DyxLess777/dashboardLight", style={"textAlign": "center"}),
+    html.H3("Links to Github – github.com/MoscowNeverSleeps/dashboardLight", style={"textAlign": "center"}),
     dcc.Tabs([
         # Вкладки с показателями
         dcc.Tab(label=group_name, children=[
